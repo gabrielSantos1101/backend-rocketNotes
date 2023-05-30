@@ -1,10 +1,20 @@
 import { Router } from 'express'
+import { UserController } from '../comtrollers/UsersController.js'
+
+const userController = new UserController()
 
 const userRoutes = Router()
 
-userRoutes.post('/', (req, res) => {
-  const { name, email, password, id } = req.body
-  res.json({ name, email, password, id })
-})
+function myMiddleware (req, res, next) {
+  if (!req.body.isAdmin) {
+    return res.status(401).json({
+      messege: 'You are not authorized'
+    })
+  }
 
-export default userRoutes
+  next()
+}
+
+userRoutes.post('/', myMiddleware, userController.Create)
+
+export { userRoutes }
