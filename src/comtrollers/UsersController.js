@@ -1,7 +1,7 @@
 import { AppError } from '../utils/AppError.js'
 
 export class UserController {
-  Create (req, res) {
+  create (req, res) {
     const { name, email, password, id } = req.body
 
     if (!name || !email || !password) {
