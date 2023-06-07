@@ -1,3 +1,4 @@
+import bcryptjs from 'bcryptjs'
 import { dbConnect } from '../database/sqlite/index.js'
 import { AppError } from '../utils/AppError.js'
 
@@ -11,8 +12,10 @@ export class UserController {
       throw new AppError('This email is already registered', 409)
     }
 
+    const hashedPassword = await bcryptjs.hash(password, 8)
+
     await database.run(
-      'INSERT INTO users (name, email, password, id) VALUES (?, ?, ?, ?)', [name, email, password]
+      'INSERT INTO users (name, email, password) VALUES (?, ?, ?)', [name, email, hashedPassword]
     )
 
     res.status(201).json()
