@@ -16,5 +16,6 @@ function myMiddleware (req, res, next) {
 }
 
 userRoutes.post('/', myMiddleware, userController.create)
+userRoutes.put('/:id', userController.update)
 
 export { userRoutes }
