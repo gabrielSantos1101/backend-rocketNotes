@@ -26,7 +26,8 @@ export class UserController {
   }
 
   async update (req, res) {
-    const { name, email, password, oldPassword } = req.body
+    // eslint-disable-next-line camelcase
+    const { name, email, password, old_password } = req.body
     const { id } = req.params
 
     const database = await dbConnect()
@@ -45,8 +46,9 @@ export class UserController {
     user.name = name
     user.email = email
 
-    if (password && oldPassword) {
-      const checkOldPassword = await bcryptjs.compare(oldPassword, user.password)
+    // eslint-disable-next-line camelcase
+    if (password && old_password) {
+      const checkOldPassword = await bcryptjs.compare(old_password, user.password)
 
       if (!checkOldPassword) {
         throw new AppError('Old password is required', 400)
@@ -56,7 +58,11 @@ export class UserController {
     }
 
     await database.run(
-      'UPDATE users SET name = (?), email = (?), password = (?), updated_at = (?) WHERE id = (?)', [name, email, user.password, new Date(), id]
+      `UPDATE users SET 
+      name = (?), 
+      email = (?), 
+      password = (?), 
+      updated_at = (?) WHERE id = (?)`, [name, email, user.password, new Date(), id]
     )
 
     res.json()
