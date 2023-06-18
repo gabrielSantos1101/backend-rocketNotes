@@ -43,8 +43,8 @@ export class UserController {
       throw new AppError('This email is already registered', 409)
     }
 
-    user.name = name
-    user.email = email
+    user.name = name ?? user.name
+    user.email = email ?? user.email
 
     // eslint-disable-next-line camelcase
     if (password && old_password) {
@@ -62,7 +62,8 @@ export class UserController {
       name = (?), 
       email = (?), 
       password = (?), 
-      updated_at = (?) WHERE id = (?)`, [name, email, user.password, new Date(), id]
+      updated_at = DATETIME('now') 
+      WHERE id = (?)`, [name, email, user.password, id]
     )
 
     res.json()
