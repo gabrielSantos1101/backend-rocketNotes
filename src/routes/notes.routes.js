@@ -9,6 +9,7 @@ function myMiddleware (req, res, next) {
   next()
 }
 
+notesRoutes.get('/', myMiddleware, Controller.index)
 notesRoutes.post('/:user_id', myMiddleware, Controller.create)
 notesRoutes.get('/:id', myMiddleware, Controller.show)
 notesRoutes.delete('/:id', myMiddleware, Controller.delete)
