@@ -10,6 +10,9 @@ export default {
     migrations: {
       directory: path.resolve(Path.dirname(import.meta.url), 'src', 'database', 'knex', 'migrations')
     },
+    pool: {
+      afterCreate: (conn, cb) => conn.run('PRAGMA foreign_keys = ON', cb)
+    },
     useNullAsDefault: true
   }
 }

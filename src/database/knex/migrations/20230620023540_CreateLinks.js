@@ -3,7 +3,7 @@ export const up = async (knex) => {
     table.increments('id')
     table.text('url').notNullable()
 
-    table.integer('note_id').references('id').inTable('users').onDelete('CASCADE')
+    table.integer('note_id').references('id').inTable('notes').onDelete('CASCADE')
     table.timestamp('created_at').defaultTo(knex.fn.now())
   })
 }
