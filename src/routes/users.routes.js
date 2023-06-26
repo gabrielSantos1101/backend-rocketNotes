@@ -8,7 +8,7 @@ const userRoutes = Router()
 function myMiddleware (req, res, next) {
   // if (!req.body.isAdmin) {
   //   return res.status(401).json({
-  //     messege: 'You are not authorized'
+  //     message: 'You are not authorized'
   //   })
   // }
 
