@@ -1,7 +1,9 @@
-import { Router } from "express";
-import { SessionController } from "../controllers/sessions.controller";
+import { Router } from 'express'
+import { SessionsController } from '../controllers/sessionscontroller.js'
 
-const SessionController = new SessionController();
-export const SessionRouter = Router();
-SessionRouter.post("/", SessionController.create);
-export {SessionRouter}
+const Controller = new SessionsController()
+
+const SessionsRouter = Router()
+SessionsRouter.post('/', Controller.create)
+
+export { SessionsRouter }

@@ -31,7 +31,7 @@ export class NotesController {
     })
     await knex('tags').insert(tagsInsert)
 
-    res.json()
+    return res.json()
   }
 
   async show (req, res) {
@@ -51,7 +51,7 @@ export class NotesController {
   }
 
   async delete (req, res) {
-    const { id } = req.params
+    const {id} = req.params
 
     // Delete the note with the given ID from the database.
     await knex('notes').where({ id }).delete()
@@ -61,7 +61,8 @@ export class NotesController {
 
   async index (req, res) {
     // extract query parameters
-    const { title, user_id, tags } = req.query
+    const { title, tags } = req.query
+    const user_id = req.user.id
     let notes
 
     if (tags) {

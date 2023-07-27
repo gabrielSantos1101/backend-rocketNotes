@@ -32,13 +32,13 @@ export class UserController {
   async update (req, res) {
   // eslint-disable-next-line camelcase
     const { name, email, password, old_password } = req.body
-    const { id } = req.params
+    const user_id = req.user.id
 
     // Connect to the database
     const database = await dbConnect()
 
     // Get the user per id from the database
-    const user = await database.get('SELECT * FROM users WHERE id = (?)', [id])
+    const user = await database.get('SELECT * FROM users WHERE id = (?)', [user_id])
 
     // If the user doesn't exist, throw an error
     if (!user) {
@@ -75,9 +75,9 @@ export class UserController {
     email = (?), 
     password = (?), 
     updated_at = DATETIME('now') 
-    WHERE id = (?)`, [user.name, user.email, user.password, id]
+    WHERE id = (?)`, [user.name, user.email, user.password, user_id]
     )
 
-    res.json()
+    return res.json()
   }
 }
