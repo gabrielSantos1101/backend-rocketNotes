@@ -4,13 +4,14 @@ import express from 'express'
 import { routes } from './routes/index.js'
 import { AppError } from './utils/AppError.js'
 import { migrationsRun } from './database/sqlite/migrations/index.js'
+import { UPLOADS_FOLDER } from './configs/upload.js'
 
 const app = express()
-app.use(express.json())
-
-app.use(routes)
-
 migrationsRun()
+
+app.use(express.json())
+app.use(routes)
+app.use("/files", express.static(UPLOADS_FOLDER))
 
 app.use((err, req, res, next) => {
   if (err instanceof AppError) {

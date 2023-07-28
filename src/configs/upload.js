@@ -4,7 +4,7 @@ import path from 'path'
 import Path from '../utils/Path.js'
 
 export const TMP_FOLDER = path.resolve(Path.dirname(import.meta.url), '..', '..', 'tmp')
-export const UPLOADS_FOLDER = path.resolve(TMP_FOLDER, '..', '..', 'uploads')
+export const UPLOADS_FOLDER = path.resolve(TMP_FOLDER, 'uploads')
 
 export const MULTER = {
   storage: multer.diskStorage({
