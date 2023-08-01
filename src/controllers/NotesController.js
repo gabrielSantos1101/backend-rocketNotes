@@ -90,10 +90,8 @@ export class NotesController {
         ])
         .where('notes.user_id', user_id)
         .andWhereLike('notes.title', `%${title}%`)
-        // .whereLike('notes.title', `%${title}%`)
         .orWhereLike('tags.name', `%${title}%`)
         .innerJoin('notes', 'notes.id', 'tags.note_id')
-        // .whereLike('title', `%${title}%`)
         .groupBy('notes.id')
         .orderBy('title')
     }
