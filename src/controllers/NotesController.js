@@ -2,7 +2,7 @@ import knex from '../database/knex/index.js'
 
 /* eslint-disable camelcase */
 export class NotesController {
-  async create (req, res) {
+  async create(req, res) {
     const { title, description, tags, links } = req.body
     const { user_id } = req.params
 
@@ -34,24 +34,24 @@ export class NotesController {
     return res.json()
   }
 
-  async show (req, res) {
+  async show(req, res) {
     const { id } = req.params
     // Retrieve the note with the given ID from the database.
-    const note = await knex('notes').where({ id }).first()
+    const notes = await knex('notes').where({ id }).first()
     // Retrieve all the tags associated with the note and order them by name.
     const tags = await knex('tags').where({ note_id: id }).orderBy('name')
     // Retrieve all the links associated with the note and order them by creation date.
     const links = await knex('links').where({ note_id: id }).orderBy('created_at')
 
     return res.json({
-      ...note,
+      ...notes,
       tags,
       links
     })
   }
 
-  async delete (req, res) {
-    const {id} = req.params
+  async delete(req, res) {
+    const { id } = req.params
 
     // Delete the note with the given ID from the database.
     await knex('notes').where({ id }).delete()
@@ -59,7 +59,7 @@ export class NotesController {
     return res.json()
   }
 
-  async index (req, res) {
+  async index(req, res) {
     // extract query parameters
     const { title, tags } = req.query
     const user_id = req.user.id
@@ -78,12 +78,23 @@ export class NotesController {
         .whereLike('notes.title', `%${title}%`)
         .whereIn('name', tagsFilter)
         .innerJoin('notes', 'notes.id', 'tags.note_id')
+        .groupBy('notes.id')
         .orderBy('notes.title')
     } else {
       // otherwise, filter notes by user_id and title
-      notes = await knex('notes')
-        .where({ user_id })
-        .whereLike('title', `%${title}%`)
+      notes = await knex('tags')
+        .select([
+          'notes.id',
+          'notes.title',
+          'notes.user_id'
+        ])
+        .where('notes.user_id', user_id)
+        .andWhereLike('notes.title', `%${title}%`)
+        // .whereLike('notes.title', `%${title}%`)
+        .orWhereLike('tags.name', `%${title}%`)
+        .innerJoin('notes', 'notes.id', 'tags.note_id')
+        // .whereLike('title', `%${title}%`)
+        .groupBy('notes.id')
         .orderBy('title')
     }
 
