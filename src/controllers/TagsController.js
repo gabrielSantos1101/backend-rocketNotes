@@ -8,7 +8,7 @@ export class TagsController {
     const user_id = req.user.id
 
     // Query database for all tags associated with user id
-    const tags = await knex('tags').where({ user_id })
+    const tags = await knex('tags').where({ user_id }).groupBy('name')
 
     // Send JSON response with tags data
     return res.json(tags)

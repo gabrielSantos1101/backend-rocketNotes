@@ -9,7 +9,7 @@ const notesRoutes = Router()
 notesRoutes.use(ensureAuthenticated)
 
 notesRoutes.get('/', Controller.index)
-notesRoutes.post('/', Controller.create)
+notesRoutes.post('/:user_id', Controller.create)
 notesRoutes.get('/:id', Controller.show)
 notesRoutes.delete('/:id', Controller.delete)
 
