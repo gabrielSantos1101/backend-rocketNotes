@@ -8,10 +8,10 @@ import { migrationsRun } from './database/sqlite/migrations/index.js'
 import { UPLOADS_FOLDER } from './configs/upload.js'
 
 const app = express()
+app.use(cors())
 migrationsRun()
 
 app.use(express.json())
-app.use(cors())
 app.use(routes)
 app.use("/files", express.static(UPLOADS_FOLDER))
 
