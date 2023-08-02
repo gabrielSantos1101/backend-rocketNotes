@@ -9,7 +9,7 @@ import { UPLOADS_FOLDER } from './configs/upload.js'
 
 const app = express()
 app.use(cors({
-  origin: 'https://front-rocket-notes.vercel.app/',
+  origin: 'https://front-rocket-notes.vercel.app',
   optionsSuccessStatus: 200
 }))
 migrationsRun()
