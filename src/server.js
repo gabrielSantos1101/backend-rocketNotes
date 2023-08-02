@@ -34,5 +34,5 @@ app.use((err, req, res, next) => {
   })
 })
 
-const PORT = 3333
+const PORT = 3000
 app.listen(PORT, () => console.log(`server is running on https://localhost:${PORT}`))
