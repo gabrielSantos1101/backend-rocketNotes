@@ -8,10 +8,13 @@ import { migrationsRun } from './database/sqlite/migrations/index.js'
 import { UPLOADS_FOLDER } from './configs/upload.js'
 
 const app = express()
+app.use(cors({
+  origin: 'https://front-rocket-notes.vercel.app',
+  optionsSuccessStatus: 200
+}))
 migrationsRun()
 
 app.use(express.json())
-app.use(cors())
 app.use(routes)
 app.use("/files", express.static(UPLOADS_FOLDER))
 
@@ -31,6 +34,6 @@ app.use((err, req, res, next) => {
   })
 })
 
-const PORT = 3333
+const PORT = 3000
 app.listen(PORT, () => console.log(`server is running on https://localhost:${PORT}`))
 
